@@ -1,21 +1,18 @@
-void dijkstra(int start) {
-    priority_queue<pii> pq; 
-    dist[start] = 0;
-    pq.push({0, start}); 
+void dijkstra(int start_node) {
+    priority_queue<pii> pq;
+    pq.push({0, start_node});
+    dist[start_node] = 0;
 
-    while (!pq.empty()) {
-        int d = -pq.top().first;
-        int u = pq.top().second; 
+    while(!pq.empty()) {
+        auto [_, top]= pq.top();
         pq.pop();
 
-        if (vis[u]) continue;
-        vis[u] = true;
+        if(vis[top]) continue;
+        vis[top] = 1;
 
-        for (auto &edge : g[u]) {
-            int v = edge.first;
-            int weight = edge.second;
-            if (dist[u] + weight < dist[v]) {
-                dist[v] = dist[u] + weight;
+        for(auto [v, w] : g[top]) {
+            if(dist[v] > dist[top] + w) {
+                dist[v] = dist[top] + w;
                 pq.push({-dist[v], v});
             }
         }
